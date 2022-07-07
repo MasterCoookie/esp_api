@@ -1,0 +1,23 @@
+{
+  "name": "esp_api",
+  "version": "1.0.0",
+  "description": "esp32 web api, used in personal project",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MasterCoookie/esp_api.git"
+  },
+  "author": "JK",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/MasterCoookie/esp_api/issues"
+  },
+  "homepage": "https://github.com/MasterCoookie/esp_api#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1"
+  }
+}
