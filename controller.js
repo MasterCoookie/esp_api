@@ -25,7 +25,21 @@ const signup_post = async (req, res) => {
         console.log(err);
         res.status(400).json(errors);
     }
-   
+}
+
+const user_check = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        if(await User.check_user(email, password)) {
+            res.status(200).json({ success: true });
+        } else {
+            res.status(403).json({ success: false})
+        }
+    } catch(err) {
+        const errors = errorHandler(err);
+        res.status(400).json({ errors });
+    }
 }
 
 module.exports =  { index_get, signup_post };

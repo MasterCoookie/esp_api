@@ -24,6 +24,17 @@ userSchema.pre('save', function(next) {
     next();
 });
 
+userSchema.statics.check_user = function(email, password) {
+    const user = await this.findOne({ email});
+    if(user) {
+        const auth = await bcrypt.compareSync(password, user.password);
+        if(auth) {
+            return true;
+        }
+    }
+    return false;
+};
+
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
