@@ -24,10 +24,10 @@ userSchema.pre('save', function(next) {
     next();
 });
 
-userSchema.statics.check_user = function(email, password) {
+userSchema.statics.check_user = async function(email, password) {
     const user = await this.findOne({ email});
     if(user) {
-        const auth = await bcrypt.compareSync(password, user.password);
+        const auth = await bcrypt.compare(password, user.password);
         if(auth) {
             return true;
         }

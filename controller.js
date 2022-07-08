@@ -42,4 +42,4 @@ const user_check = async (req, res) => {
     }
 }
 
-module.exports =  { index_get, signup_post };
+module.exports =  { index_get, signup_post, user_check };
