@@ -14,8 +14,3 @@ mongoose.connect(db, {}).then(result => {
     app.listen(port);
     console.log("Listening for requests on port %s...", port);
 }).catch(err => { console.log(err); });
-
-
-
-
-
