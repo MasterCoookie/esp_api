@@ -42,4 +42,8 @@ const user_check = async (req, res) => {
     }
 }
 
-module.exports =  { index_get, signup_post, user_check };
+const random_test = (req, res) => {
+    res.status(200).json({ dupa: "dupa" });
+}
+
+module.exports =  { index_get, signup_post, user_check, random_test };

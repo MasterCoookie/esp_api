@@ -25,7 +25,7 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.statics.check_user = async function(email, password) {
-    const user = await this.findOne({ email});
+    const user = await this.findOne({ email });
     if(user) {
         const auth = await bcrypt.compare(password, user.password);
         if(auth) {
