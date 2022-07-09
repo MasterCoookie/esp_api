@@ -3,7 +3,6 @@ const routes = require('./routes');
 const mongoose = require('mongoose');
 const db_pwd  = require('./db_pwd');
 const bodyParser = require('body-parser');
-const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -13,8 +12,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(routes);
-
-app.use('/random_test', authMiddleware.requireAuth);
 
 const db = 'mongodb+srv://esp_api_client:' + db_pwd + '@espproject.ok0kk.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(db, {}).then(result => {
