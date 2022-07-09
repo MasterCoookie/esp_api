@@ -1,4 +1,4 @@
-const User = require('./models');
+const User = require('./models/userModel');
 
 const index_get =  (req, res) => {
     console.log("New request");
