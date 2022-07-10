@@ -10,6 +10,7 @@ const deviceEventSchema = new Schema({
     eventTime: Date,
     targetYpos: Number,
 }, { timestamps: true });
+//TODO: event repetition
 
 const deviceEvent = mongoose.model('deviceEvent', deviceEventSchema);
 

@@ -77,10 +77,23 @@ const create_event = async (req, res) => {
     }
 }
 
+const delete_event = async (req, res) => {
+    const { eventID } = req.body;
+
+    try {
+        await DeviceEvent.findByIdAndDelete(eventID);
+        res.status(200).json({ success: true });
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({ success: false });
+    }
+}
+
 module.exports =  { index_get,
     signup_post,
     user_check, 
     random_test,
     regiser_device, 
-    create_event 
+    create_event,
+    delete_event
 };
