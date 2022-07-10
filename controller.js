@@ -1,5 +1,6 @@
 const User = require('./models/userModel');
 const Device = require('./models/deviceModel');
+const DeviceEvent = require('./models/deviceEventModel');
 
 const index_get =  (req, res) => {
     console.log("New request");
@@ -56,9 +57,30 @@ const regiser_device = async (req, res) => {
         await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
         res.status(201).json({ success: true })
     } catch(err) {
-        const errors = errorHandler(err);
+        //const errors = errorHandler(err);
+        console.log(err);
         res.status(400).json({ success: false });
     }
 }
 
-module.exports =  { index_get, signup_post, user_check, random_test, regiser_device };
+const create_event = async (req, res) => {
+    const { deviceID, eventTime, targetYpos } = req.body;
+    const eventTimeDate = new Date(eventTime * 1000);
+    console.log(eventTimeDate);
+
+    try {
+        await DeviceEvent.create({ deviceID, eventTime: eventTimeDate, targetYpos });
+        res.status(201).json({ success: true });
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({ success: false });
+    }
+}
+
+module.exports =  { index_get,
+    signup_post,
+    user_check, 
+    random_test,
+    regiser_device, 
+    create_event 
+};
