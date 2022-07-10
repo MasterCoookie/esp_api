@@ -76,6 +76,22 @@ const create_event = async (req, res) => {
     }
 }
 
+const update_event = async (req, res) => {
+    const { eventID, eventTime, targetYpos, repeatable, repeat } = req.body;
+    const eventTimeDate = new Date(eventTime * 1000);
+
+    try {
+        await DeviceEvent.findByIdAndUpdate(eventID, {
+            eventTime: eventTimeDate,
+            targetYpos, repeatable, repeat
+        });
+        res.status(200).json({ success: true });
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({ success: false });
+    }
+}
+
 const delete_event = async (req, res) => {
     const { eventID } = req.body;
 
@@ -94,5 +110,6 @@ module.exports =  { index_get,
     random_test,
     regiser_device, 
     create_event,
-    delete_event
+    delete_event,
+    update_event
 };

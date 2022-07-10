@@ -15,6 +15,7 @@ router.post('/random_test', authMiddleware.requireAuth, controller.random_test);
 router.post('/register_device', authMiddleware.requireAuth, controller.regiser_device);
 
 router.post('/create_event', authMiddleware.requireAuth, controller.create_event);
+router.post('/update_event', authMiddleware.requireAuth, controller.update_event);
 router.post('/delete_event', authMiddleware.requireAuth, controller.delete_event);
 
 module.exports = router;
