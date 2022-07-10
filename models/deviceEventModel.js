@@ -9,8 +9,11 @@ const deviceEventSchema = new Schema({
     //TOOD: check for colliding events
     eventTime: Date,
     targetYpos: Number,
+    repeatable: Boolean,
+    //index 0 represents sunday, 1 monday and so on
+    repeat: [Boolean]
 }, { timestamps: true });
-//TODO: event repetition
+
 
 const deviceEvent = mongoose.model('deviceEvent', deviceEventSchema);
 

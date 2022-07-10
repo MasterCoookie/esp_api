@@ -64,12 +64,11 @@ const regiser_device = async (req, res) => {
 }
 
 const create_event = async (req, res) => {
-    const { deviceID, eventTime, targetYpos } = req.body;
+    const { deviceID, eventTime, targetYpos, repeatable, repeat } = req.body;
     const eventTimeDate = new Date(eventTime * 1000);
-    console.log(eventTimeDate);
 
     try {
-        await DeviceEvent.create({ deviceID, eventTime: eventTimeDate, targetYpos });
+        await DeviceEvent.create({ deviceID, eventTime: eventTimeDate, targetYpos, repeatable, repeat });
         res.status(201).json({ success: true });
     } catch(err) {
         console.log(err);
