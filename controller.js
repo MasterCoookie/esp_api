@@ -104,6 +104,16 @@ const delete_event = async (req, res) => {
     }
 }
 
+const get_device_events = async (req, res) => {
+    const { deviceID } = req.body;
+
+    DeviceEvent.find({ deviceID }).then( result => {
+        res.status(200).json({ events: result });
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
 module.exports =  { index_get,
     signup_post,
     user_check, 
@@ -111,5 +121,6 @@ module.exports =  { index_get,
     regiser_device, 
     create_event,
     delete_event,
-    update_event
+    update_event,
+    get_device_events
 };

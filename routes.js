@@ -13,6 +13,7 @@ router.post('/user_check', controller.user_check);
 router.post('/random_test', authMiddleware.requireAuth, controller.random_test);
 
 router.post('/register_device', authMiddleware.requireAuth, controller.regiser_device);
+router.post('/get_device_events', authMiddleware.requireAuth, controller.get_device_events);
 
 router.post('/create_event', authMiddleware.requireAuth, controller.create_event);
 router.post('/update_event', authMiddleware.requireAuth, controller.update_event);
