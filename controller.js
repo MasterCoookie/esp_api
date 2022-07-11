@@ -114,6 +114,19 @@ const get_device_events = async (req, res) => {
     });
 }
 
+const check_pending_event = async (req, res) => {
+    const { deviceID } = req.body;
+
+    //TODO : calculate time for nearing event,
+    //TODO: query by calculated time
+    DeviceEvent.find({ deviceID,  }).then( result => {
+        //TODO: add found event to pendingEventID field in device and return event
+        res.status(200).json({ events: result });
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
 module.exports =  { index_get,
     signup_post,
     user_check, 
@@ -122,5 +135,6 @@ module.exports =  { index_get,
     create_event,
     delete_event,
     update_event,
-    get_device_events
+    get_device_events,
+    check_pending_event
 };

@@ -18,5 +18,6 @@ router.post('/get_device_events', authMiddleware.requireAuth, controller.get_dev
 router.post('/create_event', authMiddleware.requireAuth, controller.create_event);
 router.post('/update_event', authMiddleware.requireAuth, controller.update_event);
 router.post('/delete_event', authMiddleware.requireAuth, controller.delete_event);
+router.post('/check_pending_event', authMiddleware.requireAuth, controller.check_pending_event);
 
 module.exports = router;
