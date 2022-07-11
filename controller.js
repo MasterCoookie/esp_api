@@ -53,7 +53,7 @@ const regiser_device = async (req, res) => {
     
     try {
         const registeredDevice = await Device.create({ owners: [ownerID] ,name });
-        console.log("New device %s registered by %s", ownerID, name);
+        console.log("New device %s registered by %s", name, ownerID);
         await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
         res.status(201).json({ success: true })
     } catch(err) {
