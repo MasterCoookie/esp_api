@@ -2,6 +2,11 @@ const User = require('./models/userModel');
 const Device = require('./models/deviceModel');
 const DeviceEvent = require('./models/deviceEventModel');
 
+const caclulate_next_occurance = event => {
+    if(event.repeatable) {
+        //TODO: CALCULATE
+    }
+}
 
 const index_get =  (req, res) => {
     console.log("New request");
@@ -129,10 +134,17 @@ const check_pending_event = async (req, res) => {
     }).catch(err => {
         console.log(err);
     });
-
-    console.log(event[0]);
-    await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
-    res.status(200).json({ event: event[0] });
+    if(event[0]) {
+        console.log(event[0]);
+        await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
+        res.status(200).json({ event: event[0] });
+        
+        caclulate_next_occurance(event);
+    } else {
+        res.status(204).json({ event: null });
+        console.log("Not found ");
+    }
+    
 }
 
 module.exports =  { index_get,
