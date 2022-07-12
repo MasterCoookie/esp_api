@@ -2,6 +2,10 @@ const User = require('./models/userModel');
 const Device = require('./models/deviceModel');
 const DeviceEvent = require('./models/deviceEventModel');
 
+const is_timestamp_in_range = (time, lower_limit, upper_limit) => {
+    return time.getTime() < upper_limit.getTime() && time.getTime() > lower_limit;
+}
+
 const index_get =  (req, res) => {
     console.log("New request");
     res.render('index');
@@ -116,15 +120,22 @@ const get_device_events = async (req, res) => {
 
 const check_pending_event = async (req, res) => {
     const { deviceID } = req.body;
+    const curr_time = Date.now();
 
-    //TODO : calculate time for nearing event,
-    //TODO: query by calculated time
-    DeviceEvent.find({ deviceID,  }).then( result => {
-        //TODO: add found event to pendingEventID field in device and return event
-        res.status(200).json({ events: result });
+    const time_limit = new Date(curr_time + 300000);
+    //console.log(curr_time, time_limit);
+    //TODO: more complex check, allowing event repetition
+    //IDEA: keep this way of quering, but in different field (sth like nex occurance)
+    //this would be calculated after quering
+    const event = await DeviceEvent.find({ deviceID,
+        eventTime : { $gt: curr_time, $lt: time_limit }
     }).catch(err => {
         console.log(err);
     });
+
+    console.log(event[0]);
+    await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
+    res.status(200).json({ event: event[0] });
 }
 
 module.exports =  { index_get,
