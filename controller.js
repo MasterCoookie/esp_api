@@ -4,7 +4,16 @@ const DeviceEvent = require('./models/deviceEventModel');
 
 const caclulate_next_occurance = event => {
     if(event.repeatable) {
-        //TODO: CALCULATE
+        const curr_time = new Date(Date.now());
+        const next_weekday = curr_time.getDay() + 1;
+        if(event.repeat[next_weekday]) {
+            const next_occurance = new Date();
+            next_occurance.setDate(event.eventTime.getDate() + 1);
+            return next_occurance;
+       } else {
+            console.log("no repeat");
+            return null;
+       }
     }
 }
 
@@ -139,7 +148,8 @@ const check_pending_event = async (req, res) => {
         await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
         res.status(200).json({ event: event[0] });
         
-        caclulate_next_occurance(event);
+        //TODO: move call to controller that runs after event occured
+        console.log(caclulate_next_occurance(event[0]));
     } else {
         res.status(204).json({ event: null });
         console.log("Not found ");
