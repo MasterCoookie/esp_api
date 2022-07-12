@@ -2,9 +2,6 @@ const User = require('./models/userModel');
 const Device = require('./models/deviceModel');
 const DeviceEvent = require('./models/deviceEventModel');
 
-const is_timestamp_in_range = (time, lower_limit, upper_limit) => {
-    return time.getTime() < upper_limit.getTime() && time.getTime() > lower_limit;
-}
 
 const index_get =  (req, res) => {
     console.log("New request");
