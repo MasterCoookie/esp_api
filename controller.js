@@ -3,18 +3,17 @@ const Device = require('./models/deviceModel');
 const DeviceEvent = require('./models/deviceEventModel');
 
 const caclulate_next_occurance = event => {
-    if(event.repeatable) {
         const curr_time = new Date(Date.now());
-        const next_weekday = curr_time.getDay() + 1;
-        if(event.repeat[next_weekday]) {
-            const next_occurance = new Date();
-            next_occurance.setDate(event.eventTime.getDate() + 1);
-            return next_occurance;
-       } else {
-            console.log("no repeat");
-            return null;
-       }
-    }
+        const next_occurance = new Date();
+        next_occurance.setDate(event.eventTime.getDate() + 1);
+        let weekday = curr_time.getDay() + 1;
+        while(!event.repeat[weekday]) {
+            next_occurance.setDate(next_occurance.getDate() + 1);
+            if(++weekday > 6) {
+                weekday = 0;
+            }
+        }
+        console.log(next_occurance);
 }
 
 const index_get =  (req, res) => {
@@ -122,7 +121,7 @@ const delete_event = async (req, res) => {
 const get_device_events = async (req, res) => {
     const { deviceID } = req.body;
 
-    DeviceEvent.find({ deviceID }).then( result => {
+    DeviceEvent.find({ deviceID }).then(result => {
         res.status(200).json({ events: result });
     }).catch(err => {
         console.log(err);
@@ -157,6 +156,18 @@ const check_pending_event = async (req, res) => {
     
 }
 
+const confirm_event_done = async (req, res) => {
+    const { eventID } = req.body;
+
+    await DeviceEvent.findById(eventID).then(resultEvent => {
+        if(resultEvent.repeatable) {
+            caclulate_next_occurance(resultEvent);
+        }
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
 module.exports =  { index_get,
     signup_post,
     user_check, 
@@ -166,5 +177,6 @@ module.exports =  { index_get,
     delete_event,
     update_event,
     get_device_events,
-    check_pending_event
+    check_pending_event,
+    confirm_event_done
 };
