@@ -133,10 +133,6 @@ const check_pending_event = async (req, res) => {
     const curr_time = Date.now();
 
     const time_limit = new Date(curr_time + 300000);
-    //console.log(curr_time, time_limit);
-    //TODO: more complex check, allowing event repetition
-    //IDEA: keep this way of quering, but in different field (sth like nex occurance)
-    //this would be calculated after quering
     const event = await DeviceEvent.find({ deviceID,
         eventTime : { $gt: curr_time, $lt: time_limit }
     }).catch(err => {
@@ -147,8 +143,6 @@ const check_pending_event = async (req, res) => {
         await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
         res.status(200).json({ event: event[0] });
         
-        //TODO: move call to controller that runs after event occured
-        console.log(caclulate_next_occurance(event[0]));
     } else {
         res.status(204).json({ event: null });
         console.log("Not found ");
