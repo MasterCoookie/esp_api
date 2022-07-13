@@ -13,7 +13,7 @@ const caclulate_next_occurance = event => {
                 weekday = 0;
             }
         }
-        console.log(next_occurance);
+        return next_occurance;
 }
 
 const index_get =  (req, res) => {
@@ -159,13 +159,20 @@ const check_pending_event = async (req, res) => {
 const confirm_event_done = async (req, res) => {
     const { eventID } = req.body;
 
-    await DeviceEvent.findById(eventID).then(resultEvent => {
-        if(resultEvent.repeatable) {
-            caclulate_next_occurance(resultEvent);
-        }
-    }).catch(err => {
+    let event = await DeviceEvent.findById(eventID).catch(err => {
         console.log(err);
-    })
+    });
+    if(event.repeatable) {
+        const event_next_occurance = caclulate_next_occurance(event);
+        const hours = event.eventTime.getHours();
+        const minutes = event.eventTime.getMinutes();
+
+        event.eventTime = event_next_occurance.valueOf();
+        event.eventTime.setHours(hours, minutes, 0);
+        await event.save();
+    } else {
+        event.delete();
+    }
 }
 
 module.exports =  { index_get,
