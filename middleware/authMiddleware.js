@@ -1,5 +1,7 @@
 const User = require('../models/userModel');
 
+//TODO: protect devices (potentially)
+
 const requireAuth = async (req, res, next) => {
     const { email, password } = req.body;
 

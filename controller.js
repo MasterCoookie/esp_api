@@ -175,6 +175,17 @@ const confirm_event_done = async (req, res) => {
     }
 }
 
+const add_device_owner = async (req, res) => {
+    const { ownerID, deviceID } = req.body;
+
+    await Device.findByIdAndUpdate(deviceID, { "$push": { owners: ownerID } }).then(() => {
+        res.status(200).json({ success: true });
+    }).catch(err => {
+        console.log(err);
+        res.status(400).json({ success: false });
+    });
+}
+
 module.exports =  { index_get,
     signup_post,
     user_check, 
@@ -185,5 +196,6 @@ module.exports =  { index_get,
     update_event,
     get_device_events,
     check_pending_event,
-    confirm_event_done
+    confirm_event_done,
+    add_device_owner
 };
