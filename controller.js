@@ -134,7 +134,13 @@ const check_pending_event = async (req, res) => {
 
     const time_limit = new Date(curr_time + 300000);
     const event = await DeviceEvent.find({ deviceID,
-        eventTime : { $gt: curr_time, $lt: time_limit }
+        eventTime : { $gt: curr_time, $lt: time_limit },
+    }, null, {
+        skip: 0,
+        limit: 1,
+        sort: {
+            eventTime: 1
+        }
     }).catch(err => {
         console.log(err);
     });
