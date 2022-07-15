@@ -31,10 +31,9 @@ const errorHandler = (err) => {
 }
 
 const signup_post = async (req, res) => {
-    console.log(req.body);
     const { email, password } = req.body;
     try {
-        const user = await User.create({ email, password });
+        await User.create({ email, password });
         res.status(201).json({ success: true });
     } catch(err) {
         const errors = errorHandler(err);
@@ -122,7 +121,7 @@ const check_pending_event = async (req, res) => {
         console.log(err);
     });
     if(event[0]) {
-        console.log(event[0]);
+        //console.log(event[0]);
         await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
         res.status(200).json({ event: event[0] });
         

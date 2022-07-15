@@ -12,7 +12,6 @@ const regiser_device = async (req, res) => {
         await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
         res.status(201).json({ success: true })
     } catch(err) {
-        //const errors = errorHandler(err);
         console.log(err);
         res.status(400).json({ success: false });
     }
