@@ -1,6 +1,6 @@
-const User = require('./models/userModel');
-const Device = require('./models/deviceModel');
-const DeviceEvent = require('./models/deviceEventModel');
+const User = require('../models/userModel');
+const Device = require('../models/deviceModel');
+const DeviceEvent = require('../models/deviceEventModel');
 
 const caclulate_next_occurance = event => {
         const curr_time = new Date(Date.now());
@@ -62,20 +62,6 @@ const random_test = (req, res) => {
     res.status(200).json({ dupa: "dupa" });
 }
 
-const regiser_device = async (req, res) => {
-    const { ownerID, name } = req.body;
-    
-    try {
-        const registeredDevice = await Device.create({ owners: [ownerID] ,name });
-        console.log("New device %s registered by %s", name, ownerID);
-        await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
-        res.status(201).json({ success: true })
-    } catch(err) {
-        //const errors = errorHandler(err);
-        console.log(err);
-        res.status(400).json({ success: false });
-    }
-}
 
 const create_event = async (req, res) => {
     const { deviceID, eventTime, targetYpos, repeatable, repeat } = req.body;
@@ -118,15 +104,6 @@ const delete_event = async (req, res) => {
     }
 }
 
-const get_device_events = async (req, res) => {
-    const { deviceID } = req.body;
-
-    DeviceEvent.find({ deviceID }).then(result => {
-        res.status(200).json({ events: result });
-    }).catch(err => {
-        console.log(err);
-    });
-}
 
 const check_pending_event = async (req, res) => {
     const { deviceID } = req.body;
@@ -175,27 +152,13 @@ const confirm_event_done = async (req, res) => {
     }
 }
 
-const add_device_owner = async (req, res) => {
-    const { ownerID, deviceID } = req.body;
-
-    await Device.findByIdAndUpdate(deviceID, { "$push": { owners: ownerID } }).then(() => {
-        res.status(200).json({ success: true });
-    }).catch(err => {
-        console.log(err);
-        res.status(400).json({ success: false });
-    });
-}
-
 module.exports =  { index_get,
     signup_post,
     user_check, 
     random_test,
-    regiser_device, 
     create_event,
     delete_event,
     update_event,
-    get_device_events,
     check_pending_event,
-    confirm_event_done,
-    add_device_owner
+    confirm_event_done
 };
