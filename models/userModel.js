@@ -29,7 +29,7 @@ userSchema.statics.check_user = async function(email, password) {
     if(user) {
         const auth = await bcrypt.compare(password, user.password);
         if(auth) {
-            return true;
+            return user;
         }
     }
     return false;
