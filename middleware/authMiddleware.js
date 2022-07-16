@@ -20,10 +20,10 @@ const require_auth = async (req, res, next) => {
 }
 
 const check_device_ownership = async (req, res, next) => {
-    const { userID, deviceID } = req.body;
-
+    const { deviceID } = req.body;
+    const userID = res.locals.user._id;
     try {
-        if(await Device.findOne({ deviceID, owners: userID })) {
+        if(await Device.findOne({ _id: deviceID, owners: userID })) {
             next();
         } else {
             res.status(403).json({ err: 'Device acces denied' });
