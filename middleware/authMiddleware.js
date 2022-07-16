@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const Device = require('../models/deviceModel');
+const DeviceEvent = require('../models/deviceEventModel');
 
 //TODO: protect devices (potentially)
 
@@ -21,6 +22,10 @@ const require_auth = async (req, res, next) => {
 
 const check_device_ownership = async (req, res, next) => {
     const { deviceID } = req.body;
+
+    //TMP: save_event_device middleware check
+    console.log(deviceID);
+    
     const userID = res.locals.user._id;
     try {
         if(await Device.findOne({ _id: deviceID, owners: userID })) {
@@ -36,5 +41,25 @@ const check_device_ownership = async (req, res, next) => {
 
 //IDEA: use middleware to remember event's device
 // After that, just check device access
+const save_event_device = async(req, res, next) => {
+    const { eventID } = req.body;
 
-module.exports = { require_auth, check_device_ownership };
+    try {
+        const event = await DeviceEvent.findById(eventID);
+        if(event) {
+            const device = await Device.findById(event.deviceID);
+            if(device) {
+                req.body.deviceID = device._id;
+                next();
+            } else {
+                res.status(404).json({ err: 'No corelating device found' });
+            }
+        } else {
+            res.status(404).json({ err: 'No event found' });
+        }
+    } catch(err) {
+        res.status(400).json({ err });
+    }
+}
+
+module.exports = { require_auth, check_device_ownership, save_event_device };
