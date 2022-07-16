@@ -15,7 +15,7 @@ router.post('/random_test', authMiddleware.require_auth, eventsController.random
 
 router.post('/register_device', authMiddleware.require_auth, devicessController.regiser_device);
 router.post('/get_device_events', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.get_device_events);
-router.post('/add_device_owner', authMiddleware.require_auth, devicessController.add_device_owner);
+router.post('/add_device_owner', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.add_device_owner);
 
 router.post('/create_event', authMiddleware.require_auth, eventsController.create_event);
 router.post('/update_event', authMiddleware.require_auth, eventsController.update_event);

@@ -15,7 +15,6 @@ const userSchema = new Schema({
         maxlength: [24, "Password cannot be more than 24 characters long"],
     },
     devicesList: [Schema.Types.ObjectId],
-    //default: undefined
 });
 
 userSchema.pre('save', function(next) {
