@@ -17,10 +17,10 @@ router.post('/register_device', authMiddleware.require_auth, devicessController.
 router.post('/get_device_events', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.get_device_events);
 router.post('/add_device_owner', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.add_device_owner);
 
-router.post('/create_event', authMiddleware.require_auth, eventsController.create_event);
-router.post('/update_event',  [authMiddleware.require_auth, authMiddleware.save_event_device ,authMiddleware.check_device_ownership], eventsController.update_event);
-router.post('/delete_event', authMiddleware.require_auth, eventsController.delete_event);
+router.post('/create_event', [authMiddleware.require_auth, authMiddleware.check_device_ownership], eventsController.create_event);
+router.post('/update_event', [authMiddleware.require_auth, authMiddleware.save_event_device ,authMiddleware.check_device_ownership], eventsController.update_event);
+router.post('/delete_event', [authMiddleware.require_auth, authMiddleware.save_event_device ,authMiddleware.check_device_ownership], eventsController.delete_event);
 router.post('/check_pending_event', authMiddleware.require_auth, eventsController.check_pending_event);
-router.post('/confirm_event_done', authMiddleware.require_auth, eventsController.confirm_event_done);
+router.post('/confirm_event_done', [authMiddleware.require_auth, authMiddleware.save_event_device ,authMiddleware.check_device_ownership], eventsController.confirm_event_done);
 
 module.exports = router;

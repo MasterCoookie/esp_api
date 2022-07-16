@@ -23,9 +23,6 @@ const require_auth = async (req, res, next) => {
 const check_device_ownership = async (req, res, next) => {
     const { deviceID } = req.body;
 
-    //TMP: save_event_device middleware check
-    console.log(deviceID);
-    
     const userID = res.locals.user._id;
     try {
         if(await Device.findOne({ _id: deviceID, owners: userID })) {
@@ -39,8 +36,6 @@ const check_device_ownership = async (req, res, next) => {
     }
 }
 
-//IDEA: use middleware to remember event's device
-// After that, just check device access
 const save_event_device = async(req, res, next) => {
     const { eventID } = req.body;
 
