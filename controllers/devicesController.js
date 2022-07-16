@@ -4,11 +4,12 @@ const DeviceEvent = require('../models/deviceEventModel');
 
 
 const regiser_device = async (req, res) => {
-    const { ownerID, name } = req.body;
+    const { name } = req.body;
+    const ownerID = res.locals.user._id;
     
     try {
-        const registeredDevice = await Device.create({ owners: [ownerID] ,name });
-        console.log("New device %s registered by %s", name, ownerID);
+        const registeredDevice = await Device.create({ owners: [ownerID], name });
+        console.log("New device %s registered by %s", name, res.locals.user.email);
         await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
         res.status(201).json({ success: true })
     } catch(err) {
