@@ -2,7 +2,7 @@ const User = require('../models/userModel');
 
 //TODO: protect devices (potentially)
 
-const requireAuth = async (req, res, next) => {
+const require_auth = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -16,4 +16,5 @@ const requireAuth = async (req, res, next) => {
     }
 }
 
-module.exports = { requireAuth };
+
+module.exports = { require_auth };
