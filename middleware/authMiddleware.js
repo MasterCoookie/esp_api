@@ -34,5 +34,7 @@ const check_device_ownership = async (req, res, next) => {
     }
 }
 
+//IDEA: use middleware to remember event's device
+// After that, just check device access
 
 module.exports = { require_auth, check_device_ownership };
