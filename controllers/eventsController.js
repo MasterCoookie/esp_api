@@ -34,7 +34,7 @@ const signup_post = async (req, res) => {
     const { email, password } = req.body;
     try {
         await User.create({ email, password });
-        res.status(201).json({ success: true });
+        res.status(201);
     } catch(err) {
         const errors = errorHandler(err);
         console.log(err);
