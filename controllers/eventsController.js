@@ -47,9 +47,9 @@ const user_check = async (req, res) => {
 
     try {
         if(await User.check_user(email, password)) {
-            res.status(200).json({ success: true });
+            res.status(200);
         } else {
-            res.status(403).json({ success: false})
+            res.status(403);
         }
     } catch(err) {
         const errors = errorHandler(err);
