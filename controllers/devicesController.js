@@ -11,10 +11,12 @@ const regiser_device = async (req, res) => {
         const registeredDevice = await Device.create({ owners: [ownerID], name });
         console.log("New device %s registered by %s", name, res.locals.user.email);
         await User.findByIdAndUpdate(ownerID , { "$push": { devicesList: registeredDevice._id } });
-        res.status(201).json({ success: true })
+        res.status(201);
+        res.end();
     } catch(err) {
         console.log(err);
-        res.status(400).json({ success: false });
+        res.status(400);
+        res.end();
     }
 }
 
@@ -24,7 +26,9 @@ const get_device_events = async (req, res) => {
     DeviceEvent.find({ deviceID }).then(result => {
         res.status(200).json({ events: result });
     }).catch(err => {
+        res.status(400);
         console.log(err);
+        res.end();
     });
 }
 
@@ -32,10 +36,12 @@ const add_device_owner = async (req, res) => {
     const { ownerID, deviceID } = req.body;
 
     await Device.findByIdAndUpdate(deviceID, { "$push": { owners: ownerID } }).then(() => {
-        res.status(200).json({ success: true });
+        res.status(200);
+        res.end();
     }).catch(err => {
         console.log(err);
-        res.status(400).json({ success: false });
+        res.status(400);
+        res.end();
     });
 }
 
@@ -53,7 +59,9 @@ const check_pending_event = async (req, res) => {
             eventTime: 1
         }
     }).catch(err => {
+        res.status(400);
         console.log(err);
+        res.end();
     });
     if(event[0]) {
         await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
