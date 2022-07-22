@@ -35,6 +35,7 @@ const signup_post = async (req, res) => {
     try {
         await User.create({ email, password });
         res.status(201);
+        res.end();
     } catch(err) {
         const errors = errorHandler(err);
         console.log(err);
@@ -43,17 +44,19 @@ const signup_post = async (req, res) => {
 }
 
 const user_check = async (req, res) => {
+    console.log("new login attempt by %s", req.body.email);
     const { email, password } = req.body;
 
     try {
         if(await User.check_user(email, password)) {
             res.status(200);
+            res.end();
         } else {
             res.status(403);
+            res.end();
         }
     } catch(err) {
-        const errors = errorHandler(err);
-        res.status(400).json({ errors });
+        res.status(400).json(err);
     }
 }
 
