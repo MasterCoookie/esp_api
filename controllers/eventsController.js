@@ -71,10 +71,12 @@ const create_event = async (req, res) => {
 
     try {
         await DeviceEvent.create({ deviceID, eventTime: eventTimeDate, targetYpos, repeatable, repeat });
-        res.status(201).json({ success: true });
+        res.status(201);
+        res.end();
     } catch(err) {
         console.log(err);
-        res.status(400).json({ success: false });
+        res.status(400);
+        res.end();
     }
 }
 
@@ -87,10 +89,12 @@ const update_event = async (req, res) => {
             eventTime: eventTimeDate,
             targetYpos, repeatable, repeat
         });
-        res.status(200).json({ success: true });
+        res.status(200);
+        res.end();
     } catch(err) {
         console.log(err);
-        res.status(400).json({ success: false });
+        res.status(400);
+        res.end();
     }
 }
 
@@ -99,10 +103,12 @@ const delete_event = async (req, res) => {
 
     try {
         await DeviceEvent.findByIdAndDelete(eventID);
-        res.status(200).json({ success: true });
+        res.status(200);
+        res.end();
     } catch(err) {
         console.log(err);
-        res.status(400).json({ success: false });
+        res.status(400);
+        res.end();
     }
 }
 
@@ -111,7 +117,9 @@ const confirm_event_done = async (req, res) => {
     const { eventID } = req.body;
 
     let event = await DeviceEvent.findById(eventID).catch(err => {
+        res.status(400);
         console.log(err);
+        res.end();
     });
     if(event.repeatable) {
         const event_next_occurance = caclulate_next_occurance(event);
@@ -124,6 +132,8 @@ const confirm_event_done = async (req, res) => {
     } else {
         event.delete();
     }
+    res.status(200);
+    res.end();
 }
 
 module.exports =  { index_get,
