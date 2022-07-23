@@ -2,6 +2,17 @@ const User = require('../models/userModel');
 const Device = require('../models/deviceModel');
 const DeviceEvent = require('../models/deviceEventModel');
 
+const get_user_devices = async (req, res) => {
+    const { _id } = res.locals.user;
+
+    try {
+
+    } catch (err) {
+        console.log(err);
+        res.status(400);
+        res.end();
+    }
+}
 
 const regiser_device = async (req, res) => {
     const { name } = req.body;
@@ -77,5 +88,6 @@ module.exports = {
     regiser_device,
     get_device_events,
     add_device_owner,
-    check_pending_event
+    check_pending_event,
+    get_user_devices
 }
