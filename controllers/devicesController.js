@@ -6,7 +6,13 @@ const get_user_devices = async (req, res) => {
     const { _id } = res.locals.user;
 
     try {
-
+        const devices = await Device.find({ owners: _id });
+        if(devices) {
+            res.status(200).json({ devices });
+        } else {
+            res.status(204);
+            res.end();
+        }
     } catch (err) {
         console.log(err);
         res.status(400);
