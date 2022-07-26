@@ -14,6 +14,7 @@ router.post('/user_check', eventsController.user_check);
 router.post('/random_test', authMiddleware.require_auth, eventsController.random_test);
 
 router.post('/register_device', authMiddleware.require_auth, devicessController.regiser_device);
+//TODO : update device name
 router.post('/get_device_events', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.get_device_events);
 router.post('/get_user_devices', authMiddleware.require_auth, devicessController.get_user_devices);
 router.post('/add_device_owner', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.add_device_owner);
