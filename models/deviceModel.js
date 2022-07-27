@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const deviceSchema = new Schema({
     owners: [Schema.Types.ObjectId],
+    MAC: String,
     name: String,
     pendingEventID: {
         type: Schema.Types.ObjectId,
