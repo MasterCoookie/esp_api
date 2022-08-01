@@ -5,9 +5,18 @@ const deviceSchema = new Schema({
     owners: [Schema.Types.ObjectId],
     MAC: String,
     name: String,
-    motorSpeed: Number,
-    wifiName: String,
-    wifiPassword: String,
+    motorSpeed: {
+        type: Number,
+        default: 25
+    },
+    wifiName: {
+        type: String,
+        default: null
+    },
+    wifiPassword: {
+        type: String,
+        default: null
+    },
     pendingEventID: {
         type: Schema.Types.ObjectId,
         default: null
