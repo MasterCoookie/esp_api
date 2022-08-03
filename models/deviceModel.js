@@ -23,7 +23,7 @@ const deviceSchema = new Schema({
     },
     YPosClosed: {
         type: Number,
-        default: null
+        default: 0
     }
 });
 
