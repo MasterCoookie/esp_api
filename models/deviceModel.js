@@ -21,7 +21,7 @@ const deviceSchema = new Schema({
         type: Schema.Types.ObjectId,
         default: null
     },
-    YLowerLimit: {
+    YPosClosed: {
         type: Number,
         default: null
     }
