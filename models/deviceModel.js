@@ -20,6 +20,10 @@ const deviceSchema = new Schema({
     pendingEventID: {
         type: Schema.Types.ObjectId,
         default: null
+    },
+    YLowerLimit: {
+        type: Number,
+        default: null
     }
 });
 
