@@ -89,14 +89,19 @@ const check_pending_event = async (req, res) => {
     }
 }
 
-const get_device_by_mac = (req, res) => {
+const get_device_by_mac = async (req, res) => {
     const { MAC } = req.body;
 
-    const device = await Device.find({ MAC }).catch(err => {
+    const device = await Device.findOne({ MAC }).catch(err => {
         res.status(400);
         console.log(err);
         res.end();
     });
+
+    if(!device) {
+        res.status(204);
+        res.end();
+    }
 
     res.status(200).json({ device: {
         _id: device._id,
