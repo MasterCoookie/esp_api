@@ -89,11 +89,29 @@ const check_pending_event = async (req, res) => {
     }
 }
 
+const get_device_by_mac = (req, res) => {
+    const { MAC } = req.body;
+
+    const device = await Device.find({ MAC }).catch(err => {
+        res.status(400);
+        console.log(err);
+        res.end();
+    });
+
+    res.status(200).json({ device: {
+        _id: device._id,
+        name: device.name,
+        motorSpeed: device.motorSpeed,
+        YPosClosed: device.YPosClosed,
+    }})
+}
+
 
 module.exports = {
     regiser_device,
     get_device_events,
     add_device_owner,
     check_pending_event,
-    get_user_devices
+    get_user_devices,
+    get_device_by_mac
 }
