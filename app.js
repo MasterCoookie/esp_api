@@ -9,7 +9,8 @@ const fs = require('fs');
 
 const app = express();
 app.set('view engine', 'ejs');
-const port = 8080;
+const portHTTPS = 8080;
+const portHTTP = 8081;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,11 +23,11 @@ mongoose.connect(db, {}).then(result => {
     https.createServer({
         key: fs.readFileSync("key.pem"),
         cert: fs.readFileSync("cert.pem"),
-      },app).listen(8081, ()=>{
-        console.log('Listening for HTTPS requests on port 8081...');
+      },app).listen(portHTTPS, ()=>{
+        console.log('Listening for %i requests on port 8081...', portHTTPS);
     });
     http.createServer({
-    },app).listen(8080, ()=>{
-      console.log('Listening for HTTP requests on port 8080...');
+    },app).listen(portHTTP, ()=>{
+      console.log('Listening for %i requests on port 8080...', portHTTP);
   });
 }).catch(err => { console.log(err); });
