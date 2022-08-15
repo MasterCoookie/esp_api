@@ -112,6 +112,27 @@ const get_device_by_mac = async (req, res) => {
     }})
 }
 
+const update_device = async (req, res) => {
+    const { name, MAC, motorSpeed, wifiName, wifiPassword, YPosClosed } = req.body;
+
+    const oldDevice = Device.findOne({ MAC });
+    if(!oldDevice) {
+        res.status(404);
+        res.end();
+    }
+    
+    await Device.findOneAndUpdate({ MAC }, {
+        name: name ? name : oldDevice.name,
+        motorSpeed: motorSpeed ? motorSpeed : oldDevice.motorSpeed,
+        wifiName: wifiName ? wifiName : oldDevice.wifiName,
+        wifiPassword: wifiPassword ? wifiPassword : oldDevice.wifiPassword,
+        YPosClosed: YPosClosed ? YPosClosed : oldDevice.YPosClosed,
+    });
+
+    res.status(200);
+    res.end();
+}
+
 
 module.exports = {
     regiser_device,
@@ -119,5 +140,6 @@ module.exports = {
     add_device_owner,
     check_pending_event,
     get_user_devices,
-    get_device_by_mac
+    get_device_by_mac,
+    update_device
 }
