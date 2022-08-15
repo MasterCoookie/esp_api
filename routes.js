@@ -19,6 +19,7 @@ router.post('/get_device_events', [authMiddleware.require_auth, authMiddleware.c
 router.post('/get_user_devices', authMiddleware.require_auth, devicessController.get_user_devices);
 router.post('/add_device_owner', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.add_device_owner);
 router.post('/check_pending_event', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.check_pending_event);
+router.post('/update_device', [authMiddleware.require_auth, authMiddleware.check_device_ownership], devicessController.update_device);
 router.post('/get_device_by_mac', devicessController.get_device_by_mac);
 
 router.post('/create_event', [authMiddleware.require_auth, authMiddleware.check_device_ownership], eventsController.create_event);
