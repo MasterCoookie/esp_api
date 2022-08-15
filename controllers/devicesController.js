@@ -113,15 +113,15 @@ const get_device_by_mac = async (req, res) => {
 }
 
 const update_device = async (req, res) => {
-    const { name, MAC, motorSpeed, wifiName, wifiPassword, YPosClosed } = req.body;
+    const { name, deviceID, motorSpeed, wifiName, wifiPassword, YPosClosed } = req.body;
 
-    const oldDevice = Device.findOne({ MAC });
+    const oldDevice = Device.findById(deviceID);
     if(!oldDevice) {
         res.status(404);
         res.end();
     }
     
-    await Device.findOneAndUpdate({ MAC }, {
+    await Device.findByIdAndUpdate(deviceID, {
         name: name ? name : oldDevice.name,
         motorSpeed: motorSpeed ? motorSpeed : oldDevice.motorSpeed,
         wifiName: wifiName ? wifiName : oldDevice.wifiName,
