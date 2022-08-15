@@ -114,23 +114,29 @@ const get_device_by_mac = async (req, res) => {
 
 const update_device = async (req, res) => {
     const { name, deviceID, motorSpeed, wifiName, wifiPassword, YPosClosed } = req.body;
-
-    const oldDevice = Device.findById(deviceID);
-    if(!oldDevice) {
-        res.status(404);
+    try{
+        const oldDevice = Device.findById(deviceID);
+        if(!oldDevice) {
+            res.status(404);
+            res.end();
+        }
+        
+        await Device.findByIdAndUpdate(deviceID, {
+            name: name ? name : oldDevice.name,
+            motorSpeed: motorSpeed ? motorSpeed : oldDevice.motorSpeed,
+            wifiName: wifiName ? wifiName : oldDevice.wifiName,
+            wifiPassword: wifiPassword ? wifiPassword : oldDevice.wifiPassword,
+            YPosClosed: YPosClosed ? YPosClosed : oldDevice.YPosClosed,
+        });
+    
+        res.status(200);
+        res.end();
+    } catch(e) {
+        res.status(500);
         res.end();
     }
-    
-    await Device.findByIdAndUpdate(deviceID, {
-        name: name ? name : oldDevice.name,
-        motorSpeed: motorSpeed ? motorSpeed : oldDevice.motorSpeed,
-        wifiName: wifiName ? wifiName : oldDevice.wifiName,
-        wifiPassword: wifiPassword ? wifiPassword : oldDevice.wifiPassword,
-        YPosClosed: YPosClosed ? YPosClosed : oldDevice.YPosClosed,
-    });
 
-    res.status(200);
-    res.end();
+    
 }
 
 
