@@ -91,7 +91,7 @@ const check_pending_event = async (req, res) => {
 
 const get_device_by_mac = async (req, res) => {
     const { MAC } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     console.log("New mac %s req", MAC);
 
     const device = await Device.findOne({ MAC: MAC }).catch(err => {
