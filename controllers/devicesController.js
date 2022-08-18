@@ -64,7 +64,7 @@ const add_device_owner = async (req, res) => {
 
 //server is 2h behind for some reason
 const check_pending_event = async (req, res) => {
-    const { deviceID } = req.body;
+    const { deviceID, getTimeAsTimestamp } = req.body;
     const curr_time = Date.now();
     //console.log(curr_time);
 
@@ -84,7 +84,21 @@ const check_pending_event = async (req, res) => {
     });
     if(event[0]) {
         await Device.findByIdAndUpdate(deviceID, { pendingEventID: event[0]._id });
-        res.status(200).json({ event: event[0] });
+        // console.log(eventTimeAsTimestamp);
+        if(!getTimeAsTimestamp) {
+            res.status(200).json({ event: event[0] });
+        } else {
+        const eventTimeAsTimestamp = Math.floor(new Date(event[0].eventTime).valueOf() / 1000);
+        // event[0].eventTime = eventTimeAsTimestamp.valueOf();
+            res.status(200).json({
+                event: {
+                    _id: event[0]._id,
+                    eventTime: eventTimeAsTimestamp.valueOf(),
+                    targetYpos: event[0].targetYpos,
+                    repeatable: event[0].repeatable
+                }
+            });
+        }
     } else {
         res.status(204).json({ event: null });
         console.log("Not found ");
