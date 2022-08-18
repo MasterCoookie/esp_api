@@ -122,6 +122,7 @@ const confirm_event_done = async (req, res) => {
         res.end();
     });
     if(event.repeatable) {
+        //TODO do this differently
         const event_next_occurance = caclulate_next_occurance(event);
         const hours = event.eventTime.getHours();
         const minutes = event.eventTime.getMinutes();
