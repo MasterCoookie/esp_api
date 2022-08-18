@@ -62,10 +62,11 @@ const add_device_owner = async (req, res) => {
     });
 }
 
+//server is 2h behind for some reason
 const check_pending_event = async (req, res) => {
     const { deviceID } = req.body;
     const curr_time = Date.now();
-    console.log(curr_time);
+    //console.log(curr_time);
 
     const time_limit = new Date(curr_time + 300000);
     const event = await DeviceEvent.find({ deviceID,
