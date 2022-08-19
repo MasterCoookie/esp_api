@@ -76,6 +76,7 @@ const check_pending_event = async (req, res) => {
                 repeatable: true
             }
         });
+        return;
     }
 
     const time_limit = new Date(curr_time + 300000);
