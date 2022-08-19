@@ -71,7 +71,7 @@ const check_pending_event = async (req, res) => {
         res.status(200).json({
             event: {
                 _id: "62cd4c376d7ce0f4f60becac",
-                eventTime: ((curr_time.valueOf() / 1000) + 60),
+                eventTime: Math.floor((curr_time.valueOf() / 1000) + 60),
                 targetYpos: 3000,
                 repeatable: true
             }
