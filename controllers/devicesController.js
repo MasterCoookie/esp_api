@@ -64,9 +64,19 @@ const add_device_owner = async (req, res) => {
 
 //server is 2h behind for some reason
 const check_pending_event = async (req, res) => {
-    const { deviceID, getTimeAsTimestamp } = req.body;
+    const { deviceID, getTimeAsTimestamp, getDummyData } = req.body;
     const curr_time = Date.now();
     //console.log(curr_time);
+    if(getDummyData) {
+        res.status(200).json({
+            event: {
+                _id: "62cd4c376d7ce0f4f60becac",
+                eventTime: ((curr_time.valueOf() / 1000) + 60),
+                targetYpos: 3000,
+                repeatable: true
+            }
+        });
+    }
 
     const time_limit = new Date(curr_time + 300000);
     const event = await DeviceEvent.find({ deviceID,
