@@ -2,6 +2,10 @@ const User = require('../models/userModel');
 const Device = require('../models/deviceModel');
 const DeviceEvent = require('../models/deviceEventModel');
 
+const date_to_timestamp = (date) => {
+    return Math.floor(new Date(date).valueOf() / 1000);
+}
+
 const get_user_devices = async (req, res) => {
     const { _id } = res.locals.user;
 
@@ -38,7 +42,7 @@ const regiser_device = async (req, res) => {
 }
 
 const get_device_events = async (req, res) => {
-    const { deviceID } = req.body;
+    const { deviceID, getTimeAsTimestamp } = req.body;
 
     DeviceEvent.find({ deviceID }).then(result => {
         res.status(200).json({ events: result });
