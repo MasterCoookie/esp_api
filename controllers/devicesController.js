@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 const Device = require('../models/deviceModel');
 const DeviceEvent = require('../models/deviceEventModel');
 
+//use .valueOf() when using in response
 const date_to_timestamp = (date) => {
     return Math.floor(new Date(date).valueOf() / 1000);
 }
@@ -45,7 +46,22 @@ const get_device_events = async (req, res) => {
     const { deviceID, getTimeAsTimestamp } = req.body;
 
     DeviceEvent.find({ deviceID }).then(result => {
-        res.status(200).json({ events: result });
+        if(!getTimeAsTimestamp) {
+            res.status(200).json({ events: result });
+        } else {
+            let events = []
+            result.forEach(event => {
+                const eventTimeAsTimestamp = date_to_timestamp(event.eventTime);
+                events.push({
+                    "_id": event._id,
+                    "eventTime": eventTimeAsTimestamp.valueOf(),
+                    "targetYpos": event.targetYpos,
+                    "repeated": event.repeatable,
+                    "repeat":  event.repeat
+                });
+            });
+            res.status(200).json({ events });
+        }
     }).catch(err => {
         res.status(400);
         console.log(err);
@@ -103,7 +119,7 @@ const check_pending_event = async (req, res) => {
         if(!getTimeAsTimestamp) {
             res.status(200).json({ event: event[0] });
         } else {
-        const eventTimeAsTimestamp = Math.floor(new Date(event[0].eventTime).valueOf() / 1000);
+        const eventTimeAsTimestamp = date_to_timestamp(event[0].eventTime);
         // event[0].eventTime = eventTimeAsTimestamp.valueOf();
             res.status(200).json({
                 event: {
