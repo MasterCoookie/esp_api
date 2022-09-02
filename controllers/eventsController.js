@@ -114,6 +114,8 @@ const delete_event = async (req, res) => {
 
 
 const confirm_event_done = async (req, res) => {
+    //tmp
+    console.log(req.body);
     const { eventID } = req.body;
 
     let event = await DeviceEvent.findById(eventID).catch(err => {
